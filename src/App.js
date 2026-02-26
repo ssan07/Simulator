@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import loginBg from './assets/login-bg.jpg';
+import homeBg from './assets/home-bg.jpg';
+import bgImage from './assets/login-bg.jpg';
 
 // a fullscreen loading page mimicking the Windows boot animation
 function LoadingPage() {
@@ -22,7 +25,8 @@ function LoadingPage() {
 }
 
 // login page with background photo and live date/time
-function LoginPage() {
+// calls onProceed when the user clicks or presses Enter
+function LoginPage({ onProceed }) {
   const [now, setNow] = useState(new Date());
 
   useEffect(() => {
@@ -30,11 +34,26 @@ function LoginPage() {
     return () => clearInterval(timer);
   }, []);
 
+  // handle enter key globally
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === 'Enter') {
+        onProceed();
+      }
+    };
+    document.addEventListener('keydown', handleKey);
+    return () => document.removeEventListener('keydown', handleKey);
+  }, [onProceed]);
+
   const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   const dateString = now.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
 
   return (
-    <div className="login-screen">
+    <div
+      className="login-screen"
+      onClick={onProceed}
+      style={{ backgroundImage: `url(${bgImage})` }}
+    >
       <div className="login-overlay">
         <div className="login-info">
           <div className="time">{timeString}</div>
@@ -45,18 +64,46 @@ function LoginPage() {
   );
 }
 
-// main application toggles between loading and login
+// simple home screen shown after successful "login"
+function HomePage() {
+  return (
+    <div
+      className="home-screen"
+      style={{ backgroundImage: `url(${homeBg})` }}
+    >
+      <h1>Welcome to the Home Screen</h1>
+      <p>Press F5 to reload the demo.</p>
+    </div>
+  );
+}
+
+// main application toggles between loading, login, and home
 function App() {
-  const [loading, setLoading] = useState(true);
+  const [stage, setStage] = useState('loading'); // 'loading' | 'login' | 'home'
 
   useEffect(() => {
-    // keep the fake loading screen up long enough to notice it
-    const timeout = setTimeout(() => setLoading(false), 4000); // 4s loading
+    const timeout = setTimeout(() => setStage('login'), 4000);
     return () => clearTimeout(timeout);
   }, []);
 
-  return loading ? <LoadingPage /> : <LoginPage />;
+  const handleLogin = () => {
+    setStage('home');
+  };
+
+  if (stage === 'loading') return <LoadingPage />;
+  if (stage === 'login') return <LoginPage onProceed={handleLogin} />;
+  return <HomePage />;
 }
 
 export default App;
+
+
+
+
+
+
+
+
+
+
 
