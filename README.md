@@ -65,6 +65,15 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/a
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
+### Custom Behavior
+
+When the application starts it displays a fake Windows-style loading screen:
+
+- a black background with a white Windows logo
+- four animated dots as the spinner (closer to the real Windows boot animation)
+
+After about four seconds it transitions to a "login" screen with a photo background and current date/time. To change the background image place a file named `login-bg.jpg` in the `public` folder (or update the CSS `background-image` path in `src/App.css`).
+
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
