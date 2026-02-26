@@ -1,16 +1,17 @@
 {
   "files": {
-    "main.css": "/Simulator/static/css/main.85a2475e.css",
-    "main.js": "/Simulator/static/js/main.abf84405.js",
+    "main.css": "/Simulator/static/css/main.799b962d.css",
+    "main.js": "/Simulator/static/js/main.a5b75de1.js",
     "static/js/453.893a5ef7.chunk.js": "/Simulator/static/js/453.893a5ef7.chunk.js",
     "static/media/login-bg.jpg": "/Simulator/static/media/login-bg.0df375ce69c7ccaeb266.jpg",
+    "static/media/home-bg.jpg": "/Simulator/static/media/home-bg.691dfaac1712320e3b35.jpg",
     "index.html": "/Simulator/index.html",
-    "main.85a2475e.css.map": "/Simulator/static/css/main.85a2475e.css.map",
-    "main.abf84405.js.map": "/Simulator/static/js/main.abf84405.js.map",
+    "main.799b962d.css.map": "/Simulator/static/css/main.799b962d.css.map",
+    "main.a5b75de1.js.map": "/Simulator/static/js/main.a5b75de1.js.map",
     "453.893a5ef7.chunk.js.map": "/Simulator/static/js/453.893a5ef7.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.85a2475e.css",
-    "static/js/main.abf84405.js"
+    "static/css/main.799b962d.css",
+    "static/js/main.a5b75de1.js"
   ]
 }
