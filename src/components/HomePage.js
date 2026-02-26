@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css';
+import Taskbar from './Taskbar';
 
 // collect all images from the assets/home directory
 const homeImages = [];
@@ -42,6 +43,7 @@ export default function HomePage() {
     >
       <h1>Welcome to the Home Screen</h1>
       <p>Press F5 to reload the demo.</p>
+      <Taskbar />
       {menu.visible && (
         <ul
           className="context-menu"
@@ -62,4 +64,3 @@ export default function HomePage() {
     </div>
   );
 }
-

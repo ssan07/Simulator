@@ -124,6 +124,48 @@
   margin-top: 1rem;
 }
 
+/* basic taskbar styling */
+.taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: rgba(50, 50, 50, 0.98);
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  color: #fff;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.9rem;
+}
+.taskbar-section {
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+}
+.taskbar-section.clock {
+  margin-left: auto;
+}
+
+/* start logo styling with four gradient blocks separated by transparency */
+.start-logo {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 2px; /* transparent gutters */
+  background: transparent;
+}
+.start-piece {
+  border-radius: 2px;
+}
+.start-piece:nth-child(1) { background: linear-gradient(135deg, #0060df 0%, #0050c8 100%); }
+.start-piece:nth-child(2) { background: linear-gradient(45deg, #0060df 0%, #0050c8 100%); }
+.start-piece:nth-child(3) { background: linear-gradient(225deg, #0060df 0%, #0050c8 100%); }
+.start-piece:nth-child(4) { background: linear-gradient(315deg, #0060df 0%, #0050c8 100%); }
+
 
 
 
