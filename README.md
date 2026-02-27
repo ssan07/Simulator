@@ -18,6 +18,13 @@ context menu.
   * **Change background** (immediately rotates the wallpaper to the next image
     in `src/assets/home`, cycling back to the first after the last).
 
+  A taskbar runs along the bottom; clicking the Start logo toggles a
+  **Start Menu** box, which will display any icons you place under
+  `src/assets/start/icons`.  You can also drop icons into
+  `src/assets/taskbar/icons` and they will automatically appear in the taskbar
+  next to the Start button.  A CSS‑drawn multi‑window icon lives in the bar
+  as well.
+
 ## Development
 
 Install dependencies and run the development server:
