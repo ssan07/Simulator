@@ -1,0 +1,46 @@
+.file-window {
+  position: fixed;
+  top: 6vh;
+  left: 6vw;
+  right: 6vw;
+  bottom: 8vh;
+  background: rgba(255,255,255,0.95);
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  border-radius: 6px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  z-index: 2000;
+  overflow: hidden;
+}
+.file-nav {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  background: linear-gradient(180deg,#f6f6f6,#eaeaea);
+  border-bottom: 1px solid #ddd;
+}
+.file-path { font-weight: 600; }
+.file-controls { margin-left: auto; display:flex; gap:6px; }
+.fw-btn { background: transparent; border: none; font-size: 14px; cursor: pointer; padding:6px; }
+.fw-btn.close { color: #c0392b; }
+
+.file-toolbar {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+  border-bottom: 1px solid #eee;
+  background: #fafafa;
+}
+.fw-icon { padding:6px 8px; border-radius:4px; background: rgba(0,0,0,0.02); }
+.fw-meta { color: #666; font-size: 0.9rem; }
+
+.file-content { flex: 1; padding: 16px; overflow: auto; }
+.fw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 16px; }
+.fw-item { display:flex; flex-direction:column; align-items:center; gap:8px; padding:8px; }
+.fw-item-icon { font-size:36px; }
+.fw-item-name { font-size:0.9rem; text-align:center; word-break:break-word; }
+.fw-empty { color:#777; }

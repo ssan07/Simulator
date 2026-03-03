@@ -1,5 +1,5 @@
 import React from 'react';
-import '../App.css';
+import './Taskbar.css';
 
 const taskbarIconFiles = ['copilot-task.png', 'app-task.png'];
 

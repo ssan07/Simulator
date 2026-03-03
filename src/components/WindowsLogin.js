@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import bgImage from '../assets/login-bg.jpg';
 import '../App.css';
 
 export default function WindowsLogin({ onAuthenticate }) {
-  const [username, setUsername] = useState('user');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
@@ -10,41 +10,39 @@ export default function WindowsLogin({ onAuthenticate }) {
   const EXPECTED_PWD = 'pwd';
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    if (username === EXPECTED_USER && password === EXPECTED_PWD) {
+    e && e.preventDefault();
+    if (EXPECTED_PWD === password) {
       setError('');
       onAuthenticate();
     } else {
-      setError('Invalid username or password');
+      setError('Incorrect PIN');
       setPassword('');
     }
   };
 
   return (
     <div className="win-login-screen">
-      <div className="win-login-box" role="dialog" aria-label="Sign in">
-        <div className="win-avatar">Login</div>
-        <div className="win-username">{username}</div>
-        <form className="win-login-form" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            className="win-input"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            autoFocus
-          /><br />
+      <div
+        className="win-bg"
+        style={{ backgroundImage: `url(${bgImage})` }}
+        aria-hidden
+      />
+      <div className="win-overlay" />
+
+      <div className="win-login-ui" role="dialog" aria-label="Sign in">
+        <div className="win-avatar">USER</div>
+        <div className="win-username">{EXPECTED_USER}</div>
+        <form onSubmit={handleSubmit} className="win-pin-form">
           <input
             type="password"
-            className={`win-input ${error ? 'win-input-error' : ''}`}
-            placeholder="Password"
+            inputMode="numeric"
+            className="win-pin-input"
+            placeholder="password:pwd"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button type="submit" className="win-signin">Sign in</button>
         </form>
         {error && <div className="win-error">{error}</div>}
-        <div className="win-hint">Press Enter or click Sign in</div>
       </div>
     </div>
   );

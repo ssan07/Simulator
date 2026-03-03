@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../App.css';
 import Taskbar from './Taskbar';
 import StartMenu from './StartMenu';
+import FileWindow from './FileWindow';
 
 const homeImages = [];
 function importAll(r) {
@@ -116,27 +117,13 @@ export default function HomePage() {
       <Taskbar onStartClick={handleStart} />
       {startOpen && <StartMenu ref={startRef} />}
       {openPage && (
-        <div className="window-page" onClick={() => setOpenPage(null)}>
-          <div
-            className="window-nav"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <span className="window-title">{openPage}</span>
-            <button
-              className="window-close"
-              onClick={() => setOpenPage(null)}
-            >
-              X
-            </button>
-          </div>
-          <div className="window-menu" onClick={(e) => e.stopPropagation()}>
-            <span className="menu-item">File</span>
-            <span className="menu-item">Edit</span>
-            <span className="menu-item">View</span>
-            <span className="menu-item">Help</span>
-          </div>
-          <div className="window-content" onClick={(e) => e.stopPropagation()} />
-        </div>
+        <FileWindow
+          title={openPage}
+          onClose={() => setOpenPage(null)}
+          files={openPage === 'Desktop' ? [
+          
+          ] : openPage === 'Recycle Bin' ? [] : []}
+        />
       )}
       {menu.visible && (
         <ul
