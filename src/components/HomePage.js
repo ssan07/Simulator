@@ -17,6 +17,7 @@ export default function HomePage() {
   const [startOpen, setStartOpen] = useState(false);
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [openPage, setOpenPage] = useState(null);
+  const [openFiles, setOpenFiles] = useState([]);
   const menuRef = React.useRef(null);
   const startRef = React.useRef(null);
 
@@ -56,6 +57,24 @@ export default function HomePage() {
     setIndex((i) => (i + 1) % homeImages.length);
   };
 
+  function handleFileOpen(f) {
+    setOpenFiles((prev) => {
+      if (!f || !f.id) return prev;
+      if (prev.find((p) => p.id === f.id)) return prev;
+      return prev.concat(f);
+    });
+  }
+
+  function openWindow(name) {
+    if (!name) return;
+    setOpenPage(name);
+    setOpenFiles((prev) => {
+      const id = `page_${name}`;
+      if (prev.find((p) => p.id === id)) return prev;
+      return prev.concat({ id, name });
+    });
+  }
+
   const bg = homeImages[index] || '';
 
   return (
@@ -73,7 +92,7 @@ export default function HomePage() {
           }}
           onDoubleClick={(e) => {
             e.stopPropagation();
-            setOpenPage('Desktop');
+            openWindow('Desktop');
           }}
           onContextMenu={(e) => {
             e.preventDefault();
@@ -97,7 +116,7 @@ export default function HomePage() {
           }}
           onDoubleClick={(e) => {
             e.stopPropagation();
-            setOpenPage('Recycle Bin');
+            openWindow('Recycle Bin');
           }}
           onContextMenu={(e) => {
             e.preventDefault();
@@ -114,12 +133,13 @@ export default function HomePage() {
           <div className="desktop-label">Recycle Bin</div>
         </div>
       </div>
-      <Taskbar onStartClick={handleStart} />
+      <Taskbar onStartClick={handleStart} openFiles={openFiles} />
       {startOpen && <StartMenu ref={startRef} />}
       {openPage && (
         <FileWindow
           title={openPage}
-          onClose={() => setOpenPage(null)}
+          onClose={() => { setOpenPage(null); setOpenFiles((prev) => prev.filter(p => p.id !== `page_${openPage}`)); }}
+          onFileOpen={handleFileOpen}
           files={openPage === 'Desktop' ? [
           
           ] : openPage === 'Recycle Bin' ? [] : []}
@@ -134,7 +154,7 @@ export default function HomePage() {
           <li
             onClick={() => {
               const target = contextTarget || selectedIcon;
-              if (target) setOpenPage(target);
+              if (target) openWindow(target);
               setMenu({ ...menu, visible: false });
               setContextTarget(null);
             }}

@@ -15,6 +15,9 @@
 }
 .taskbar-section { display:flex; align-items:center; }
 .taskbar-section.icon { width:32px; justify-content:center; }
+.taskbar-section.icon.file-open { width:auto; padding:4px 8px; background: rgba(255,255,255,0.06); border-radius:4px; gap:6px }
+.taskbar-section.icon.file-open .file-name { max-width:120px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:0.85rem }
+.taskbar-section.icon.file-open .file-icon { font-size:14px }
 .taskbar-section.clock { margin-left:auto; }
 .start-logo { width:24px; height:24px; display:grid; grid-template-columns:repeat(2,1fr); grid-template-rows:repeat(2,1fr); gap:2px; }
 .start-piece { border-radius:2px; }

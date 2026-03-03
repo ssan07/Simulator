@@ -19,7 +19,7 @@ function writeJSON(key, val) {
 }
 
 // files: array of { id, name }
-export default function FileWindow({ title = 'Files', files = [], onClose }) {
+export default function FileWindow({ title = 'Files', files = [], onClose, onFileOpen }) {
   const initialPath = `/${title.toLowerCase().replace(/\s+/g, '_')}`;
 
   const [index, setIndex] = useState(() => readJSON(INDEX_KEY, {}));
@@ -89,6 +89,7 @@ export default function FileWindow({ title = 'Files', files = [], onClose }) {
     const key = f.id;
     const text = contents[key] || `Contents of ${f.name}`;
     setEditorValue(text);
+    if (typeof onFileOpen === 'function') onFileOpen(f);
   }
 
   function saveOpenFile() {
@@ -191,24 +192,25 @@ export default function FileWindow({ title = 'Files', files = [], onClose }) {
             </div>
           ))}
         </div>
-      </div>
-
-      {openFile && (
-        <div className="file-editor">
-          <div className="fe-header">
-            <strong>{openFile.name}</strong>
-            <div>
-              <button onClick={() => { saveOpenFile(); setOpenFile(null); }}>Save & Close</button>
-              <button onClick={() => setOpenFile(null)}>Close</button>
+        {openFile && (
+          <div className="side-editor">
+            <div className="se-header">
+              <div className="se-title">{openFile.name}</div>
+              <div className="se-actions">
+                <button className="ft-btn" onClick={() => saveOpenFile()}>Save</button>
+                <button className="ft-btn" onClick={() => setOpenFile(null)}>Close</button>
+              </div>
+            </div>
+            <div className="se-body">
+              <textarea
+                className="se-textarea"
+                value={editorValue}
+                onChange={(e) => setEditorValue(e.target.value)}
+              />
             </div>
           </div>
-          <textarea
-            className="fe-textarea"
-            value={editorValue}
-            onChange={(e) => setEditorValue(e.target.value)}
-          />
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
