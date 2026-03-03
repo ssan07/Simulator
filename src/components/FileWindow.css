@@ -14,17 +14,33 @@
   overflow: hidden;
 }
 .file-nav {
-  height: 44px;
   display: flex;
-  align-items: center;
-  padding: 0 12px;
+  flex-direction: column-reverse;
+  gap: 4px;
+  padding: 6px 12px;
   background: linear-gradient(180deg,#f6f6f6,#eaeaea);
   border-bottom: 1px solid #ddd;
 }
+.file-nav-row { display:flex; align-items:center; gap:12px }
 .file-path { font-weight: 600; }
-.file-controls { margin-left: auto; display:flex; gap:6px; }
+.file-controls { margin-left: auto; display:flex; gap:6px; align-items:center }
 .fw-btn { background: transparent; border: none; font-size: 14px; cursor: pointer; padding:6px; }
 .fw-btn.close { color: #c0392b; }
+.fw-search { padding:6px 8px; border-radius:6px; border:1px solid #ddd; }
+
+.file-controls-left { display:flex; gap:6px; align-items:center; margin-right:12px }
+.fw-nav { background: transparent; border:1px solid #ddd; padding:6px 8px; border-radius:4px; cursor:pointer }
+.fw-nav:disabled { opacity:0.4; cursor:not-allowed }
+
+.file-address-row { display:flex; justify-content:flex-start; }
+
+/* reorder visual placement without changing DOM order:
+  - child 1 (file-topbar) will appear on the right
+  - child 2 (controls + address) will be centered and stretch
+  - child 3 (ft-actions) will appear on the left */
+.file-nav > :nth-child(1) { order: 2; }
+.file-nav > :nth-child(2) { order: 1; flex: 1 1 auto; display:flex; align-items:center; justify-content:space-between; gap:12px }
+.file-nav > :nth-child(3) { order: 0; }
 
 .file-toolbar {
   height: 44px;
@@ -44,3 +60,101 @@
 .fw-item-icon { font-size:36px; }
 .fw-item-name { font-size:0.9rem; text-align:center; word-break:break-word; }
 .fw-empty { color:#777; }
+
+.fw-editor {
+  position: absolute;
+  left: 10%;
+  top: 12%;
+  right: 10%;
+  bottom: 12%;
+  background: #fff;
+  border-radius:6px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  display:flex;
+  flex-direction:column;
+  z-index:3000;
+  overflow:hidden;
+}
+.fw-editor-header { display:flex; align-items:center; justify-content:space-between; padding:8px 12px; border-bottom:1px solid #eee }
+.fw-editor textarea { flex:1; border:none; padding:12px; outline:none; resize:none; font-family:inherit }
+
+/* top action bar above address */
+.file-topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0;
+  justify-content: flex-end; /* push close button to the far right inside this area */
+}
+.ft-title { font-weight: 600; font-size: 1rem; }
+.ft-actions { display: flex; gap: 6px; justify-content: flex-start; }
+
+/* Row specific layout rules */
+.top-row { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:0 6px; border-bottom:1px solid #e7e7e7 }
+.second-row { display:flex; align-items:center; gap:12px; padding:0 6px; border-bottom:1px solid #e7e7e7 }
+.third-row { display:flex; align-items:center; gap:10px; padding:0 6px }
+
+.controls-left { display:flex; gap:8px; align-items:center }
+.controls-right { display:flex; gap:8px; align-items:center }
+
+.fw-address.expandable { flex: 1 1 320px; min-width:120px; margin:0 12px }
+.ft-btn {
+  background: transparent;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  background: rgba(0,0,0,0.03);
+}
+.ft-btn:hover { background: rgba(0,0,0,0.06); }
+
+/* close button on topbar */
+.ft-close { margin-left: 12px; background: transparent; border: none; font-size: 16px; cursor: pointer; color: #c0392b }
+
+/* middle container to hold action buttons and allow flexible spacing */
+.file-topbar-middle { display: flex; align-items: center; justify-content: flex-end; }
+
+/* editable address bar */
+.fw-address {
+  width: 520px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #fff;
+  color: #333;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
