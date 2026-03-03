@@ -1,7 +1,6 @@
 import React from 'react';
 import '../App.css';
 
-// static list of taskbar files; replace or add names as needed
 const taskbarIconFiles = ['copilot-task.png', 'app-task.png'];
 
 const tbIcons = taskbarIconFiles.map((f) => {
@@ -12,8 +11,6 @@ const tbIcons = taskbarIconFiles.map((f) => {
   }
 }).filter(Boolean);
 
-// simple taskbar placeholder with some typical sections
-// download start or multiwindow icons somewhere
 export default function Taskbar({ onStartClick }) {
   return (
     <div className="taskbar">

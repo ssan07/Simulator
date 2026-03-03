@@ -3,7 +3,6 @@ import '../App.css';
 import Taskbar from './Taskbar';
 import StartMenu from './StartMenu';
 
-// collect all images from the assets/home directory
 const homeImages = [];
 function importAll(r) {
   r.keys().forEach((key) => homeImages.push(r(key)));
@@ -13,24 +12,37 @@ importAll(require.context('../assets/home', false, /\.(png|jpe?g|svg)$/));
 export default function HomePage() {
   const [index, setIndex] = useState(0);
   const [menu, setMenu] = useState({ visible: false, x: 0, y: 0 });
+  const [contextTarget, setContextTarget] = useState(null); 
   const [startOpen, setStartOpen] = useState(false);
-  const [selectedIcon, setSelectedIcon] = useState(null); // "Desktop" or "Recycle Bin"
-  const [openPage, setOpenPage] = useState(null); // name of the page that was opened
+  const [selectedIcon, setSelectedIcon] = useState(null);
+  const [openPage, setOpenPage] = useState(null);
   const menuRef = React.useRef(null);
+  const startRef = React.useRef(null);
 
-  const handleContext = (e) => {
+  const handleContext = (e, target = null) => {
     e.preventDefault();
+    setContextTarget(target);
     setMenu({ visible: true, x: e.pageX, y: e.pageY });
   };
-  const handleStart = () => {
+
+  const handleStart = (e) => {
+    e.stopPropagation();
     setStartOpen((o) => !o);
     setMenu({ ...menu, visible: false });
   };
 
-  // global click listener to clear context menu and deselect icons
-  const handleClick = () => {
-    if (menu.visible) setMenu({ ...menu, visible: false });
+  const handleClick = (e) => {
+    if (menu.visible) {
+      setMenu({ ...menu, visible: false });
+      setContextTarget(null);
+    }
     if (selectedIcon) setSelectedIcon(null);
+
+    if (startOpen) {
+      if (startRef.current && !startRef.current.contains(e.target)) {
+        setStartOpen(false);
+      }
+    }
   };
 
   useEffect(() => {
@@ -49,7 +61,7 @@ export default function HomePage() {
     <div
       className="home-screen"
       style={{ backgroundImage: `url(${bg})` }}
-      onContextMenu={handleContext}
+      onContextMenu={(e) => handleContext(e, null)}
     >
       <div className="desktop-icons">
         <div
@@ -61,6 +73,11 @@ export default function HomePage() {
           onDoubleClick={(e) => {
             e.stopPropagation();
             setOpenPage('Desktop');
+          }}
+          onContextMenu={(e) => {
+            e.preventDefault();
+            setSelectedIcon('Desktop');
+            handleContext(e, 'Desktop');
           }}
         >
           <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
@@ -81,6 +98,11 @@ export default function HomePage() {
             e.stopPropagation();
             setOpenPage('Recycle Bin');
           }}
+          onContextMenu={(e) => {
+            e.preventDefault();
+            setSelectedIcon('Recycle Bin');
+            handleContext(e, 'Recycle Bin');
+          }}
         >
           <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
             <rect x="18" y="20" width="28" height="34" rx="4" fill="#A0D8FF" stroke="#0078D7" strokeWidth="2"/>
@@ -92,10 +114,9 @@ export default function HomePage() {
         </div>
       </div>
       <Taskbar onStartClick={handleStart} />
-      {startOpen && <StartMenu />}
+      {startOpen && <StartMenu ref={startRef} />}
       {openPage && (
         <div className="window-page" onClick={() => setOpenPage(null)}>
-          {/* window title bar */}
           <div
             className="window-nav"
             onClick={(e) => e.stopPropagation()}
@@ -105,17 +126,15 @@ export default function HomePage() {
               className="window-close"
               onClick={() => setOpenPage(null)}
             >
-              ×
+              X
             </button>
           </div>
-          {/* window menu bar */}
           <div className="window-menu" onClick={(e) => e.stopPropagation()}>
             <span className="menu-item">File</span>
             <span className="menu-item">Edit</span>
             <span className="menu-item">View</span>
             <span className="menu-item">Help</span>
           </div>
-          {/* blank content area; clicking here won't close window */}
           <div className="window-content" onClick={(e) => e.stopPropagation()} />
         </div>
       )}
@@ -125,7 +144,16 @@ export default function HomePage() {
           style={{ top: menu.y, left: menu.x }}
           ref={menuRef}
         >
-          <li>Open</li>
+          <li
+            onClick={() => {
+              const target = contextTarget || selectedIcon;
+              if (target) setOpenPage(target);
+              setMenu({ ...menu, visible: false });
+              setContextTarget(null);
+            }}
+          >
+            Open
+          </li>
           <li>Rename</li>
           <li>Delete</li>
           <li>Refresh</li>

@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import bgImage from '../assets/login-bg.jpg';
 import '../App.css';
 
-// login page with background photo and live date/time
-// calls onProceed when the user clicks or presses Enter
 export default function LoginPage({ onProceed }) {
   const [now, setNow] = useState(new Date());
 
@@ -12,7 +10,6 @@ export default function LoginPage({ onProceed }) {
     return () => clearInterval(timer);
   }, []);
 
-  // handle enter key globally
   useEffect(() => {
     const handleKey = (e) => {
       if (e.key === 'Enter') {

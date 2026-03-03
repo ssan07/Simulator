@@ -1,7 +1,6 @@
 import React from 'react';
 import '../App.css';
 
-// static list of filenames (replace these with your own image names)
 const startIconFiles = [
   'copilot.png',
   'app2.png',
@@ -11,7 +10,6 @@ const startIconFiles = [
   'app6.png'
 ];
 
-// resolve to actual imports if present
 const startIcons = startIconFiles.map((f) => {
   try {
     return require(`../assets/start/icons/${f}`);
@@ -20,9 +18,9 @@ const startIcons = startIconFiles.map((f) => {
   }
 }).filter(Boolean);
 
-export default function StartMenu() {
+const StartMenu = React.forwardRef((props, ref) => {
   return (
-    <div className="start-menu">
+    <div className="start-menu" ref={ref}>
       <div className="search-bar">
         <input type="text" placeholder="Search" />
       </div>
@@ -42,4 +40,8 @@ export default function StartMenu() {
       </div>
     </div>
   );
-}
+});
+
+export default StartMenu;
+
+
