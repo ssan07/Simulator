@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Simulator/static/css/main.c233e42e.css",
-    "main.js": "/Simulator/static/js/main.8624b8e3.js",
+    "main.css": "/Simulator/static/css/main.0c7beefb.css",
+    "main.js": "/Simulator/static/js/main.4eabe076.js",
     "static/js/453.893a5ef7.chunk.js": "/Simulator/static/js/453.893a5ef7.chunk.js",
     "static/media/pexels-eberhardgross-572897.jpg": "/Simulator/static/media/pexels-eberhardgross-572897.ba3ed28fff2b82fb69e2.jpg",
     "static/media/pexels-eberhardgross-443446.jpg": "/Simulator/static/media/pexels-eberhardgross-443446.6ec34adc374c36803c8d.jpg",
@@ -11,12 +11,12 @@
     "static/media/pexels-pixabay-268533.jpg": "/Simulator/static/media/pexels-pixabay-268533.27dd298bdae92de7f7a1.jpg",
     "static/media/pexels-pixabay-36717.jpg": "/Simulator/static/media/pexels-pixabay-36717.d51227f744e2acdf5d23.jpg",
     "index.html": "/Simulator/index.html",
-    "main.c233e42e.css.map": "/Simulator/static/css/main.c233e42e.css.map",
-    "main.8624b8e3.js.map": "/Simulator/static/js/main.8624b8e3.js.map",
+    "main.0c7beefb.css.map": "/Simulator/static/css/main.0c7beefb.css.map",
+    "main.4eabe076.js.map": "/Simulator/static/js/main.4eabe076.js.map",
     "453.893a5ef7.chunk.js.map": "/Simulator/static/js/453.893a5ef7.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c233e42e.css",
-    "static/js/main.8624b8e3.js"
+    "static/css/main.0c7beefb.css",
+    "static/js/main.4eabe076.js"
   ]
 }
