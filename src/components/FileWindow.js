@@ -1,6 +1,7 @@
 
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import './FileWindow.css';
+import openFolderIcon from '../assets/home/icons/open-folder.png';
 
 const INDEX_KEY = 'simulator_fs_index';
 const CONTENTS_KEY = 'simulator_file_contents';
@@ -31,6 +32,9 @@ export default function FileWindow({ title = 'Files', files = [], onClose, onFil
   const [query, setQuery] = useState('');
   const [openFile, setOpenFile] = useState(null); // {id,name}
   const [editorValue, setEditorValue] = useState('');
+  const [contextMenu, setContextMenu] = useState({ visible: false, x: 0, y: 0 });
+  const [viewMode, setViewMode] = useState('list');
+  const fileListRef = useRef(null);
 
   // initialize index entry for this path if missing
   useEffect(() => {
@@ -112,6 +116,53 @@ export default function FileWindow({ title = 'Files', files = [], onClose, onFil
     setContents({ ...contents, [id]: '' });
   }
 
+  function ensureUniqueFolderName(base) {
+    const arr = index[currentPath] || [];
+    let name = base;
+    let i = 1;
+    const exists = (n) => arr.find((x) => x.name === n);
+    while (exists(name)) {
+      i += 1;
+      name = `${base} (${i})`;
+    }
+    return name;
+  }
+
+  function createFolder() {
+    const base = 'New Folder';
+    const name = ensureUniqueFolderName(base);
+    const id = `d_${Date.now()}`;
+    const folderPath = (currentPath === '/' ? '' : currentPath) + '/' + name;
+    const newFolder = { id, name, type: 'folder', path: folderPath };
+    const arr = (index[currentPath] || []).concat(newFolder);
+    // add folder entry to current path
+    const nextIndex = { ...index, [currentPath]: arr };
+    // create the folder path as an empty directory
+    nextIndex[folderPath] = nextIndex[folderPath] || [];
+    setIndex(nextIndex);
+    setContextMenu({ visible: false, x: 0, y: 0 });
+  }
+
+  function handleContextMenu(e) {
+    e.preventDefault();
+    // ignore if right-clicked on a file item
+    if (e.target.closest && e.target.closest('.file-item')) {
+      return;
+    }
+    const rect = fileListRef.current && fileListRef.current.getBoundingClientRect();
+    const x = rect ? e.clientX - rect.left : e.clientX;
+    const y = rect ? e.clientY - rect.top : e.clientY;
+    setContextMenu({ visible: true, x: x, y: y });
+  }
+
+  useEffect(() => {
+    function onAnyClick() {
+      if (contextMenu.visible) setContextMenu({ visible: false, x: 0, y: 0 });
+    }
+    window.addEventListener('click', onAnyClick);
+    return () => window.removeEventListener('click', onAnyClick);
+  }, [contextMenu.visible]);
+
   function goUp() {
     if (currentPath === '/') return;
     const parts = currentPath.split('/').filter(Boolean);
@@ -179,18 +230,52 @@ export default function FileWindow({ title = 'Files', files = [], onClose, onFil
       </div>
 
       <div className="file-body">
-        <div className="file-list">
+        <div className="file-list" ref={fileListRef} onContextMenu={handleContextMenu}>
           {fileList.length === 0 && <div className="empty">No files</div>}
           {fileList.map((f) => (
             <div
               key={f.id}
               className="file-item"
-              onDoubleClick={() => openItem(f)}
+              onDoubleClick={() => {
+                if (f.type === 'folder') {
+                  navigateTo(f.path || `${currentPath}/${f.name}`);
+                } else {
+                  openItem(f);
+                }
+              }}
               onClick={() => { /* selection logic could go here */ }}
             >
-              📄 {f.name}
+              {f.type === 'folder' ? (
+                <>
+                  <img src={openFolderIcon} alt="folder" style={{ width: 18, height: 18, marginRight: 6 }} /> {f.name}
+                </>
+              ) : (
+                <>📄 {f.name}</>
+              )}
             </div>
           ))}
+
+          {contextMenu.visible && (
+            <div
+              className="context-menu"
+              style={{
+                position: 'absolute',
+                left: contextMenu.x,
+                top: contextMenu.y,
+                background: '#fff',
+                border: '1px solid #ccc',
+                boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
+                zIndex: 9999,
+                minWidth: 140,
+                padding: 4
+              }}
+              onClick={(ev) => ev.stopPropagation()}
+            >
+              <div className="cm-item" style={{ padding: '6px 8px', cursor: 'pointer' }} onClick={() => setViewMode(viewMode === 'list' ? 'icons' : 'list')}>View</div>
+              <div className="cm-item" style={{ padding: '6px 8px', cursor: 'pointer' }} onClick={() => createFolder()}>New Folder</div>
+            </div>
+          )}
+
         </div>
         {openFile && (
           <div className="side-editor">
@@ -214,6 +299,49 @@ export default function FileWindow({ title = 'Files', files = [], onClose, onFil
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
